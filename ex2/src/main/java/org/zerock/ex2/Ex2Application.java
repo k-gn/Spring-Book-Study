@@ -1,14 +1,13 @@
-package org.zerock.ex1;
+package org.zerock.ex2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Ex1Application {
+public class Ex2Application {
 
     public static void main(String[] args) {
-
-        SpringApplication.run(Ex1Application.class, args);
+        SpringApplication.run(Ex2Application.class, args);
     }
 
 }
