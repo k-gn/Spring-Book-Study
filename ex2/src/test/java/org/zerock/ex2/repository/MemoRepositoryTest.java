@@ -164,4 +164,31 @@ class MemoRepositoryTest {
     public void testDeleteQueryMethod() {
         memoRepository.deleteMemoByMnoLessThan(10L);
     }
+
+    @Test
+    public void queryAnnotationMethod() {
+//        List<Memo> list = memoRepository.getListDesc();
+//        list.stream().forEach(System.out::println);
+
+//        int result = memoRepository.updateMemoText(99L, "Update Text");
+//        System.out.println(result);
+
+//        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+//        Page<Memo> result = memoRepository.getListWithQuery(10L, pageable);
+//        System.out.println(result.getContent());
+
+//        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").ascending());
+//        Page<Object[]> result = memoRepository.getListWithQueryObject(10L, pageable);
+//        result.get().forEach(res -> {
+//            for (int i=0; i< res.length; i++) {
+//                System.out.println(res[i]);
+//            }
+//        });
+
+        System.out.println("==========================================");
+        List<Memo> list = memoRepository.getNativeResult();
+        list.stream().forEach(System.out::println);
+    }
+
+
 }
