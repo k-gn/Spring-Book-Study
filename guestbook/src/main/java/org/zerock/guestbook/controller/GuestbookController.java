@@ -70,6 +70,8 @@ public class GuestbookController {
 
         // redirect 시 가져갈 파라미터 설정
         ra.addAttribute("page", requestDTO.getPage());
+        ra.addAttribute("type", requestDTO.getType());
+        ra.addAttribute("keyword", requestDTO.getKeyword());
         ra.addAttribute("gno", dto.getGno());
         return "redirect:/guestbook/read";
     }

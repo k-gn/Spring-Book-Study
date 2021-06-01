@@ -11,8 +11,8 @@
 
       <!--페이지 번호  -->
       <input type="hidden" name="page" th:value="${requestDTO.page}">
-      <!--<input type="hidden" name="type" th:value="${requestDTO.type}" >
-      <input type="hidden" name="keyword" th:value="${requestDTO.keyword}" >-->
+      <input type="hidden" name="type" th:value="${requestDTO.type}" >
+      <input type="hidden" name="keyword" th:value="${requestDTO.keyword}" >
 
 
       <div class="form-group">
@@ -70,10 +70,15 @@
       });
 
       $(".listBtn").click(function () {
-        const pageInfo = $("input[name='page']")
+        // const pageInfo = $("input[name='page']");
+        const page = $("input[name='page']");
+        const type = $("input[name='type']");
+        const keyword = $("input[name='keyword']");
 
         actionForm.empty(); // form 태그의 모든 내용 지우기 (불필요한 내용을 전송 안하기 위해)
-        actionForm.append(pageInfo);
+        actionForm.append(page);
+        actionForm.append(type);
+        actionForm.append(keyword);
         actionForm
           .attr("action", "/guestbook/list")
           .attr("method", "get")
