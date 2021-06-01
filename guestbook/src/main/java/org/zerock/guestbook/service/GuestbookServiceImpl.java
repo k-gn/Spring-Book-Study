@@ -13,6 +13,7 @@ import org.zerock.guestbook.dto.PageResultDTO;
 import org.zerock.guestbook.entity.Guestbook;
 import org.zerock.guestbook.repository.GuestbookRepository;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -31,7 +32,7 @@ public class GuestbookServiceImpl implements GuestbookService {
         Guestbook entity = dtoToEntity(dto);
         log.info("Entity--------------------------------------");
         log.info(entity);
-        repository.save(entity);
+        repository.save(entity); // jpa 의 entity 는 공유된다. ( gno 가 알아서 들어감 )
         log.info(entity);
 
         return entity.getGno();
@@ -46,5 +47,29 @@ public class GuestbookServiceImpl implements GuestbookService {
         Function<Guestbook, GuestbookDTO> fn = (entity -> entityToDto(entity));
 
         return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public GuestbookDTO read(Long gno) {
+
+        Optional<Guestbook> result = repository.findById(gno);
+
+        return result.isPresent() ? entityToDto(result.get()) : null;
+    }
+
+    @Override
+    public void remove(Long gno) {
+        repository.deleteById(gno);
+    }
+
+    @Override
+    public void modify(GuestbookDTO dto) {
+        Optional<Guestbook> result = repository.findById(dto.getGno());
+        if(result.isPresent()) {
+            Guestbook entity = result.get();
+            entity.changeTitle(dto.getTitle());
+            entity.changeContent(dto.getContent());
+            repository.save(entity);
+        }
     }
 }

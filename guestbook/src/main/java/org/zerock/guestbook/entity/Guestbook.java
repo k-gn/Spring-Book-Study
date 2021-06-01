@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Builder
 @ToString
 @Getter
+// entity 에서 setter 는 지양
 public class Guestbook extends BaseEntity {
 
     @Id
