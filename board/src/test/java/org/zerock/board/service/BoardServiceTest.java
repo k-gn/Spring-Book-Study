@@ -56,8 +56,8 @@ class BoardServiceTest {
     public void testModify() {
         BoardDTO dto = BoardDTO.builder()
                 .bno(4L)
-                .title("제목 변경.")
-                .content("내용 변경...")
+                .title("제목 변경.2")
+                .content("내용 변경...2")
                 .build();
         boardService.modify(dto);
     }

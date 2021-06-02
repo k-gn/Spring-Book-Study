@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.board.entity.Board;
 import org.zerock.board.entity.Member;
+import org.zerock.board.repository.search.SearchBoardRepository;
 
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
 
     // @Query : 조회 컬럼이 1개 이상일 경우 Object[], 1개일 경우 Object 또는 해당 타입으로 반환 가능
     @Query("select b, w from Board b left join b.writer w where b.bno = :bno")

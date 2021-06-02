@@ -31,7 +31,7 @@ public class BoardServiceImpl implements BoardService {
 
         Board board = dtoToEntity(dto);
         repository.save(board);
-
+        System.out.println("=============================");
         return board.getBno();
     }
 
@@ -39,7 +39,12 @@ public class BoardServiceImpl implements BoardService {
     public PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
 
         Function<Object[], BoardDTO> fn = (en -> entityToDto((Board)en[0], (Member)en[1], (Long)en[2]));
-        Page<Object[]> result = repository.getBoardWithReplyCount(pageRequestDTO.getPageable(Sort.by("bno").descending()));
+//        Page<Object[]> result = repository.getBoardWithReplyCount(pageRequestDTO.getPageable(Sort.by("bno").descending()));
+        Page<Object[]> result = repository.searchPage(
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword(),
+                pageRequestDTO.getPageable(Sort.by("bno").descending())
+            );
         return new PageResultDTO<>(result, fn);
     }
 
@@ -61,6 +66,7 @@ public class BoardServiceImpl implements BoardService {
         repository.deleteById(bno);
     }
 
+    // 조회한 엔티티가 서비스와 레포지토리가 아닌 컨트롤러나 프리젠테이션 계층에서는 준영속 상태가 된다. 즉 트랜잭션이 없는 프리젠테이션 계층에서는 변경 감지와 지연 로딩이 동작하지 않는다.
     @Transactional
     @Override
     public void modify(BoardDTO boardDTO) {
@@ -71,6 +77,7 @@ public class BoardServiceImpl implements BoardService {
         board.changeContent(boardDTO.getContent());
         System.out.println("====================================");
 
+        // save 구문 없어도 자동으로 변화를 감지해서 update 된다.
         repository.save(board);
     }
 }
