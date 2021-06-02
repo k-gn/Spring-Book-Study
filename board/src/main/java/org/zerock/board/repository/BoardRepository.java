@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    // @Query : 조회 컬럼이 1개 이상일 경우 Object[], 1개일 경우 Object를 반환
+    // @Query : 조회 컬럼이 1개 이상일 경우 Object[], 1개일 경우 Object 또는 해당 타입으로 반환 가능
     @Query("select b, w from Board b left join b.writer w where b.bno = :bno")
     Object getBoardWithWriter(@Param("bno") Long bno);
 
