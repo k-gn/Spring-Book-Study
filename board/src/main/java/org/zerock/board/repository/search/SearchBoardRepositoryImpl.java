@@ -7,6 +7,8 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.JPQLQueryFactory;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,7 +28,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
     public SearchBoardRepositoryImpl() {
         super(Board.class);
-    }
+    } // 조회 대상 엔티티 클래스를 지정
 
     @Override
     public Board search1() {
@@ -64,22 +66,25 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         JPQLQuery<Board> jpqlQuery = from(board);
 
+        log.info("---------------jpqlQuery : " + jpqlQuery);
         jpqlQuery.leftJoin(member).on(board.writer.eq(member));
         jpqlQuery.leftJoin(reply).on(reply.board.eq(board));
 
+        log.info("---------------jpqlQuery : " + jpqlQuery);
         JPQLQuery<Tuple> tuple = jpqlQuery.select(board, member, reply.count());
+        log.info("---------------tuple : " + tuple);
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression expression = board.bno.gt(0L);
 
         booleanBuilder.and(expression);
-
+        log.info(type + "-------------" + keyword);
         if(type != null) {
             String[] typeArr = type.split("");
             BooleanBuilder conditionBuilder = new BooleanBuilder();
 
             for(String t : typeArr) {
-
+                log.info("----------------type : " + t);
                 switch (t) {
                     case "t":
                         conditionBuilder.or(board.title.contains(keyword));
@@ -101,8 +106,10 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         sort.stream().forEach(order -> {
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
             String prop = order.getProperty();
-
-            PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
+            PathBuilder orderByExpression = new PathBuilder(board.getType(), board.getMetadata());
+            log.info("----------------------prop : " + prop);
+            log.info("----------------------orderByExpression : " + orderByExpression);
+            log.info("----------------------orderByExpression.get(prop) : " + orderByExpression.get(prop));
             tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
         });
 
