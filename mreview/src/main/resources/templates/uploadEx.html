@@ -1,17 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body>
     <input name="uploadFiles" type="file" multiple>
     <button class="uploadBtn">Upload</button>
-    <script src="">
+    <script>
+        $('.uploadBtn').click(function () {
+           let formData = new FormData();
 
+           let inputFile = $("input[type='file']");
+           console.log("inputFile : ", inputFile);
+           console.log("inputFile : ", inputFile[0]);
+           let files = inputFile[0].files;
+           console.log("files : ", files);
+
+           for(let i=0; i<files.length; i++) {
+               console.log(files[i]);
+               formData.append("uploadFiles", files[i]);
+           }
+
+           // upload ajax
+            $.ajax({
+                url: '/uploadAjax',
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                success: function (result) {
+                    console.log("success")
+                    console.log(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("error")
+                    console.log(jqXHR)
+                    console.log(textStatus)
+                    console.log(errorThrown)
+                }
+            });
+        });
     </script>
 </body>
 </html>
