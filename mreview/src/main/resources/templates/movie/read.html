@@ -140,6 +140,7 @@
                 let grade = 0;
                 let mno = [[${dto.mno}]];
 
+                // 별점 라이브러리
                 $('.starrr').starrr({
                     rating: grade,
                     change: function(e, value){
@@ -184,7 +185,7 @@
 
                             console.log("result: " + result);
 
-                            self.location.reload();
+                            self.location.reload(); // 새로고침
 
                         }
                     })
@@ -245,7 +246,7 @@
                     inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
 
                     let grade = targetReview.find('.card-title span').html();
-                    $(".starrr a:nth-child("+grade+")").trigger('click');
+                    $(".starrr a:nth-child("+grade+")").trigger('click'); // trigger : 강제로 해당 이벤트 실행
 
                     $('.reviewModal').modal('show');
                 });

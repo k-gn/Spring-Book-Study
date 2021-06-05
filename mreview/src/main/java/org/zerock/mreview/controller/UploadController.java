@@ -58,8 +58,9 @@ public class UploadController {
             log.info("saveName : " + saveName);
 
             File saveFile = new File(saveName);
-            Path savePath = Paths.get(saveName);
-            log.info("savePath : " + savePath);
+//            Path savePath = Paths.get(saveName);
+            log.info("saveFile : " + saveFile);
+//            log.info("savePath : " + savePath);
             try {
 //                uploadFile.transferTo(savePath);
                 uploadFile.transferTo(saveFile);
@@ -68,7 +69,8 @@ public class UploadController {
 
                 File thumbnailFile = new File(thumbnailSaveName);
 
-                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+//                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+                Thumbnailator.createThumbnail(saveFile, thumbnailFile, 100, 100);
 
                 resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
             } catch (IOException e) {
@@ -109,9 +111,14 @@ public class UploadController {
             log.info("file : " + file);
 
             HttpHeaders header = new HttpHeaders();
-            header.add("Content-Type", Files.probeContentType(file.toPath()));
+            // 로컬 파일 시스템에 저장되어 있는 파일을 바이너리 형태로 내려주는 REST API 에서
+            // 파일을 내려줄 때 Content-Type 헤더에 Mime Type을 알맞게 지정해줘야 한다.
+            header.add("Content-Type", Files.probeContentType(file.toPath())); // 실제 파일의 내용이 아니라 파일의 확장자를 이용하여 마임타입을 판단
+            log.info("Files.probeContentType(file.toPath()) : " +  Files.probeContentType(file.toPath()));
+            
+            // FileCopyUtils : 파일 및 스트림 복사를 위한 유틸리티 메소드 집합체
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-
+            log.info("FileCopyUtils.copyToByteArray(file) : " + FileCopyUtils.copyToByteArray(file)); // file 내용을 byte[] 로 복사 후 리턴
         }catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

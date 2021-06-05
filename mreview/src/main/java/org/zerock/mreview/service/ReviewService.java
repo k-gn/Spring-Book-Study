@@ -36,6 +36,8 @@ public interface ReviewService {
 
     default ReviewDTO entityToDto(Review movieReview){
 
+        System.out.println("start review entityToDto -----------------------");
+        System.out.println("movieReview.getMovie().getMno() : " + movieReview.getMovie().getMno());
         ReviewDTO movieReviewDTO = ReviewDTO.builder()
                 .reviewnum(movieReview.getReviewnum())
                 .mno(movieReview.getMovie().getMno())
@@ -47,6 +49,7 @@ public interface ReviewService {
                 .regDate(movieReview.getRegDate())
                 .modDate(movieReview.getModDate())
                 .build();
+        System.out.println("end review entityToDto -----------------------");
 
         return movieReviewDTO;
     }

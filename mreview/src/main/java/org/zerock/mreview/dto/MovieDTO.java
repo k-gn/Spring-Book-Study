@@ -31,6 +31,6 @@ public class MovieDTO {
 
     private LocalDateTime modDate;
 
-    @Builder.Default
+    @Builder.Default // 특정 속성에 기본값 지정 적용
     private List<MovieImageDTO> imageDTOList = new ArrayList<>();
 }

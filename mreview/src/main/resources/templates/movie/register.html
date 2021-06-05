@@ -62,6 +62,7 @@
 <script>
     $(document).ready(function(e) {
 
+        // 확장자 정규 표현식
         let regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");
         let maxSize = 10485760; //10MB
 
@@ -80,6 +81,7 @@
             return true;
         }
 
+        // jquery - data : HTML 엘리먼트 내에 데이터를 저장하거나 저장한 데이터를 읽어올 수 있다.
         // change : value 값이 변할 때마다 event
         $(".custom-file-input").on("change", function() {
 
@@ -120,8 +122,9 @@
             //upload ajax
             $.ajax({
                 url: '/uploadAjax',
-                processData: false,
-                contentType: false,
+                processData: false, // 기본 값은 true, 해당 값이 true일때는 data 값들이 쿼리스트링 형태인 key1=value1&key2=value2 형태로 전달 -> 하지만 이렇게 하면 file 값들은 제대로 전달되지 못한다
+                                    // 그래서 해당 값을 false로 해주어 { key1 : 'value1', key2 : 'value2' } 형태로 전달해 주어야 file 값들이 제대로 전달
+                contentType: false, // 기본값은 'application/x-www-form-urlencoded'이다. 해당 기본 타입으로는 파일이 전송 안되기 때문에 false
                 data: formData,
                 type: 'POST',
                 dataType:'json',
@@ -129,7 +132,17 @@
                     console.log(result);
                     showResult(result);
                 },
-                error: function(jqXHR, textStatus, errorThrown){
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // jqXHR : (jQuery XMLHttpRequest)
+                    // - jQuery는 브라우저 고유 XMLHttpRequest 객체를 superset API로 래핑합니다.
+                    // - jQuery XMLHttpRequest (jqXHR) 객체는 $.ajax () 함수에 의해 반환됩니다.
+                    // - jqXHR 객체는 가능한 경우 기본 XHR 기능을 시뮬레이션합니다.
+                    // - HTTP 요청 헤더 (마지막 수정, etag, Content-Type, MIME 유형 등)를 처리합니다.
+                    // - 요청의 콜백을 처리합니다 (약속 콜백 .done(), .fail() 등 포함).
+                    // - 요청에 설정된 모든 사전 필터를 처리합니다.
+                    // - 요청에 설정된 모든 시간 초과를 처리합니다.
+                    // - 크로스 도메인 호출 (jsonp 포함)을 처리합니다.
+
                     console.log(textStatus);
                 }
             }); //$.ajax
@@ -185,7 +198,7 @@
 
             let str = "";
 
-            $(".uploadResult li").each(function(i,obj){
+            $(".uploadResult li").each(function(i, obj){
                 let target = $(obj);
 
                 str += "<input type='hidden' name='imageDTOList["+i+"].imgName' value='"+target.data('name') +"'>";
