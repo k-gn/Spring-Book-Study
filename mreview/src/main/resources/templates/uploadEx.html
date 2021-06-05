@@ -8,6 +8,11 @@
 <body>
     <input name="uploadFiles" type="file" multiple>
     <button class="uploadBtn">Upload</button>
+
+    <div class="uploadResult">
+
+    </div>
+
     <script>
         $('.uploadBtn').click(function () {
            let formData = new FormData();
@@ -34,6 +39,8 @@
                 success: function (result) {
                     console.log("success")
                     console.log(result);
+
+                    showUploadedImages(result);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log("error")
@@ -42,6 +49,39 @@
                     console.log(errorThrown)
                 }
             });
+
+        });
+
+        function showUploadedImages(arr) {
+            console.log(arr);
+
+            let divArea = $(".uploadResult");
+            let str = "";
+
+            for(let i=0; i<arr.length; i++) {
+                console.log(arr[i]);
+                str += "<div>";
+                str += "<img src='/display?fileName=" + arr[i].thumbnailURL + "'>";
+                str += "<button class='removeBtn' data-name='" + arr[i].imageURL + "'>REMOVE</button>";
+                str += "</div>"
+            }
+            divArea.append(str);
+        };
+
+        $(".uploadResult").on("click", ".removeBtn", function () {
+
+            let target = $(this);
+            let fileName = target.data("name");
+            let targetDiv = $(this).closest("div");
+
+            console.log(fileName);
+
+            $.post('/removeFile', {fileName: fileName}, function (result) {
+                console.log(result);
+                if(result === true) {
+                    targetDiv.remove();
+                }
+            })
         });
     </script>
 </body>
