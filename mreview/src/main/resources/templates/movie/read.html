@@ -137,8 +137,8 @@
         <script>
             $(document).ready(function(e) {
 
-                var grade = 0;
-                var mno = [[${dto.mno}]];
+                let grade = 0;
+                let mno = [[${dto.mno}]];
 
                 $('.starrr').starrr({
                     rating: grade,
@@ -152,9 +152,9 @@
 
                 //$(".reviewModal").modal("show"); 미리 보기용
 
-                var reviewModal = $(".reviewModal");
-                var inputMid = $('input[name="mid"]');
-                var inputText = $('input[name="text"]');
+                let reviewModal = $(".reviewModal");
+                let inputMid = $('input[name="mid"]');
+                let inputText = $('input[name="text"]');
 
 
                 $(".addReviewBtn").click(function () {
@@ -170,7 +170,7 @@
 
                 $('.reviewSaveBtn').click(function() {
 
-                    var data = {mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
+                    let data = {mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
 
                     console.log(data);
 
@@ -197,7 +197,7 @@
                 function getMovieReviews() {
 
                     function formatTime(str){
-                        var date = new Date(str);
+                        let date = new Date(str);
 
                         return date.getFullYear() + '/' +
                             (date.getMonth() + 1) + '/' +
@@ -207,7 +207,7 @@
                     }
 
                     $.getJSON("/reviews/"+ mno +"/all", function(arr){
-                        var str ="";
+                        let str ="";
 
                         $.each(arr, function(idx, review){
 
@@ -229,7 +229,7 @@
 
                 //modify reveiw
 
-                var reviewnum;
+                let reviewnum;
 
                 $(".reviewList").on("click", ".card-body", function() {
 
@@ -237,14 +237,14 @@
                     $(".removeBtn , .modifyBtn").show();
 
 
-                    var targetReview = $(this);
+                    let targetReview = $(this);
 
                     reviewnum = targetReview.data("reviewnum");
                     console.log("reviewnum: "+ reviewnum);
                     inputMid.val(targetReview.data("mid"));
                     inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
 
-                    var grade = targetReview.find('.card-title span').html();
+                    let grade = targetReview.find('.card-title span').html();
                     $(".starrr a:nth-child("+grade+")").trigger('click');
 
                     $('.reviewModal').modal('show');
@@ -253,7 +253,7 @@
 
                 $(".modifyBtn").on("click", function(){
 
-                    var data = {reviewnum: reviewnum, mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
+                    let data = {reviewnum: reviewnum, mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
 
                     console.log(data);
 
@@ -276,7 +276,7 @@
 
                 $(".removeBtn").on("click", function(){
 
-                    var data = {reviewnum: reviewnum};
+                    let data = {reviewnum: reviewnum};
 
                     console.log(data);
 
@@ -298,7 +298,7 @@
 
                 $(".uploadResult li").click(function() {
 
-                    var file = $(this).data('file');
+                    let file = $(this).data('file');
 
                     console.log(file);
 
