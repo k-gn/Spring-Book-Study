@@ -55,6 +55,7 @@
         <div class="uploadResult">
             <ul >
                 <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailURL()}">
+                    <!-- || : 리터럴 치환 - 문자열을 합칠 때 +로 붙이는 게 가독성이 안좋으니 양쪽 끝에 ||를 선언 -->
                     <img  th:if="${movieImage.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">
                 </li>
             </ul>
