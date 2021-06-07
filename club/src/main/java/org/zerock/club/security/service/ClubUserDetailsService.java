@@ -26,7 +26,6 @@ public class ClubUserDetailsService  implements UserDetailsService {
 
         log.info("ClubUserDetailsService loadUserByUsername " + username);
 
-
         Optional<ClubMember> result = clubMemberRepository.findByEmail(username, false);
 
         if(result.isEmpty()){
@@ -49,7 +48,8 @@ public class ClubUserDetailsService  implements UserDetailsService {
 
         clubAuthMember.setName(clubMember.getName());
         clubAuthMember.setFromSocial(clubMember.isFromSocial());
-
+        log.info("clubAuthMember : " + clubAuthMember);
+        log.info("clubAuthMember getPassword : " + clubAuthMember.getPassword());
         return clubAuthMember;
     }
 }

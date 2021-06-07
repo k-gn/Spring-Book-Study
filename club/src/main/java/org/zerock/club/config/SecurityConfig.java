@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.zerock.club.security.handler.ClubLoginSuccessHandler;
 
 @Configuration
 @Log4j2
@@ -37,6 +39,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin();
         http.csrf().disable();
-        http.logout();
+//        http.logout();
+
+        // oauth2 소셜 로그인 등록 (기본적으로 ROLE_USER)
+        http.oauth2Login()
+            .successHandler(successHandler());
+    }
+
+    @Bean
+    public ClubLoginSuccessHandler successHandler() {
+        return new ClubLoginSuccessHandler(passwordEncoder());
     }
 }
