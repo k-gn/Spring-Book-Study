@@ -16,6 +16,7 @@ import java.io.IOException;
 @Log4j2
 public class ClubLoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    // 스프링 시큐리티가 화면 이동에 대한 규칙을 정의한 인터페이스로 이 인터페이스의 구현 객체로 화면 redirect 를 할 수 있다.
     private RedirectStrategy redirectStratgy = new DefaultRedirectStrategy();
 
     private PasswordEncoder passwordEncoder;
