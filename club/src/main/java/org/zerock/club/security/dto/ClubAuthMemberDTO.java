@@ -22,6 +22,8 @@ public class ClubAuthMemberDTO extends User implements OAuth2User {
 
     private String name;
 
+    private String password;
+
     private boolean fromSocial;
 
     private Map<String, Object> attr;
@@ -38,6 +40,7 @@ public class ClubAuthMemberDTO extends User implements OAuth2User {
                              Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.email = username;
+        this.password = password;
         this.fromSocial = fromSocial;
     }
 

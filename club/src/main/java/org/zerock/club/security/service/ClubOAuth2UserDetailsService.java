@@ -56,8 +56,10 @@ public class ClubOAuth2UserDetailsService extends DefaultOAuth2UserService {
 //        ClubMember member = saveSocialMember(email); //조금 뒤에 사용
 //
 //        return oAuth2User;
-        
+
         ClubMember member = saveSocialMember(email);
+        log.info("member : " + member);
+        log.info("member.getPassword() : " + member.getPassword());
 
         ClubAuthMemberDTO clubAuthMember = new ClubAuthMemberDTO(
                 member.getEmail(),
@@ -70,7 +72,7 @@ public class ClubOAuth2UserDetailsService extends DefaultOAuth2UserService {
         );
         clubAuthMember.setName(member.getName());
 
-
+        log.info("clubAuthMember.getPassword() : " + clubAuthMember.getPassword());
         return clubAuthMember;
 
     }

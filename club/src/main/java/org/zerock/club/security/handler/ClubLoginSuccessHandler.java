@@ -33,6 +33,7 @@ public class ClubLoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("onAuthenticationSuccess");
 
         ClubAuthMemberDTO authMember = (ClubAuthMemberDTO)authentication.getPrincipal();
+        log.info("authMember : " + authMember);
 
         boolean fromSocial = authMember.isFromSocial();
 

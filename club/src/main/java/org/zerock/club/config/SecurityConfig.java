@@ -2,6 +2,7 @@ package org.zerock.club.config;
 
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.zerock.club.security.handler.ClubLoginSuccessHandler;
+import org.zerock.club.security.service.ClubUserDetailsService;
 
 @Configuration
 @Log4j2
@@ -21,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    private ClubUserDetailsService userDetailsService;
+
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //
@@ -28,6 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .password("$2a$10$8gxBT7N83BMDHCnHWDnYhuDbT8fo3shYnSQSQQ39kTjttRzsuKWOa")
 //                .roles("USER");
 //
+//    }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.eraseCredentials(false);
 //    }
 
     @Override
@@ -43,7 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // oauth2 소셜 로그인 등록 (기본적으로 ROLE_USER)
         http.oauth2Login()
-            .successHandler(successHandler());
+                .successHandler(successHandler());
+
+        http.rememberMe()
+                .tokenValiditySeconds(60 * 60 * 24 * 7)
+                .userDetailsService(userDetailsService); // rememberMe 는 userDetailsService 를 필수로 등록해야 한다.
     }
 
     @Bean

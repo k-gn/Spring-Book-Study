@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
-@Service
+@Service // UserDetailsService 은 service 로 등록하면 알아서 스프링이 인식하여 동작시킨다.
 @RequiredArgsConstructor
 public class ClubUserDetailsService  implements UserDetailsService {
 
