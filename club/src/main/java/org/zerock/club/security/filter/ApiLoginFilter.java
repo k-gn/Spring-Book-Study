@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
+// 사용자의 credential을 인증하기 위한 베이스 Filter 다.
+// 웹 기반 인증요청에서 사용되는 컴포넌트로 POST 폼 데이터를 포함하는 요청을 처리
 public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private JWTUtil jwtUtil;
@@ -26,6 +28,8 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
         this.jwtUtil = jwtUtil;
     }
 
+    // Filter의 attemptAuthentication에서 this.getAuthenticationManager().authenticate(authRequest) 을 통해 알맞는 Provider를 찾아
+    // authenticate로직을 실행하고 성공과 실패 결과에 따른 추가적인 작업은 Handler 등록을 통해 작업이 가능
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("-----------------ApiLoginFilter---------------------");
@@ -34,6 +38,7 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
         String email = request.getParameter("email");
         String pw = request.getParameter("pw");
 
+        // UsernamePasswordAuthenticationToken 은 Authentication 인터페이스의 구현체
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(email, pw);
 
