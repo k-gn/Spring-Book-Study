@@ -13,8 +13,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("select m from Movie m")
     Page<Movie> findAll2(Pageable pageable);
 
-    @Query("select m, p, count(p) from Movie m " +
-            "left join Poster p on p.movie = m and p.idx = (select max(p2.idx) from Poster p2 where p2.movie = m)" +
-            "group by p.movie")
+    @Query("select m, p, count(p2) from Movie m " +
+            "left join Poster p on p.movie = m " +
+            "left join Poster p2 on p.movie = m " +
+            "where p.idx = 1" +
+            "group by p.movie, p2.movie")
     Page<Object[]> findAll3(Pageable pageable);
 }
