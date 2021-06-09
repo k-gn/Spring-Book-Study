@@ -19,6 +19,18 @@ public class SampleController {
         log.info("exAll.............");
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/main")
+    public void mainPage() {
+        log.info("main.............");
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/loginPage")
+    public void loginPage() {
+        log.info("loginPage.............");
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/member")
     // @AuthenticationPrincipal : UserDetailsService에서 Return한 객체 파라메터로 직접 받아 사용할 수 있다.
